@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Risk Radar</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     /* Add custom styles here */
   </style>
@@ -16,45 +16,100 @@
     </div>
     <div id="riskLevelBox" class="alert text-center font-weight-bold" role="alert"></div>
     <br />
-    <h4>Points of Risk (with thresholds)</h4>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">Risk</th>
-          <th scope="col">Description</th>
-          <th scope="col">Threshold</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Security</th>
-          <td>Important to security i.e. Authentication related would be high</td>
-          <td>0.7</td>
-        </tr>
-        <tr>
-          <th scope="row">Dependency</th>
-          <td>Relates to a high dependency on or impacts other features</td>
-          <td>0.2</td>
-        </tr>
-        <tr>
-          <th scope="row">Relevance</th>
-          <td>High visibility to the end customer (i.e. Consumer Facing) or end-user and/or core functionality</td>
-          <td>0.4</td>
-        </tr>
-        <tr>
-          <th scope="row">Importance</th>
-          <td>Highly important to the business in terms of reliability and risk to failure in compliance</td>
-          <td>0.5</td>
-        </tr>
-        <tr>
-          <th scope="row">Rework</th>
-          <td>Relates to work that has been identified as an existing bug that wasn't caught previously</td>
-          <td>0.6</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Points of Risk (with thresholds)
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Risk</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Security</th>
+                  <td>Important to security i.e. Authentication related would be high</td>
+                  <td>0.7</td>
+                </tr>
+                <tr>
+                  <th scope="row">Dependency</th>
+                  <td>Relates to a high dependency on or impacts other features</td>
+                  <td>0.2</td>
+                </tr>
+                <tr>
+                  <th scope="row">Relevance</th>
+                  <td>High visibility to the end customer (i.e. Consumer Facing) or end-user and/or core functionality</td>
+                  <td>0.4</td>
+                </tr>
+                <tr>
+                  <th scope="row">Importance</th>
+                  <td>Highly important to the business in terms of reliability and risk to failure in compliance</td>
+                  <td>0.5</td>
+                </tr>
+                <tr>
+                  <th scope="row">Rework</th>
+                  <td>Relates to work that has been identified as an existing bug that wasn't caught previously</td>
+                  <td>0.6</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Risk Rating (with actions to take)
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Rating</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Jira Label</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">>= 6.5</th>
+                  <td>Requires a label added to the ticket, requires QA testing and upfront E2E testing + below.</td>
+                  <td>Q1</td>
+                </tr>
+                <tr>
+                  <th scope="row">>= 4</th>
+                  <td>Requires a label added to the ticket, requires QA testing for Prep env before release + below.</td>
+                  <td>Q2</td>
+                </tr>
+                <tr>
+                  <th scope="row">>= 2.5</th>
+                  <td>Requires a label added to the ticket, can proceed without QA testing but requires PO to do UAT + below.</td>
+                  <td>Q3</td>
+                </tr>
+                <tr>
+                  <th scope="row">Below 2.5</th>
+                  <td>Does not require a label, engineers can proceed without QA testing as long as code coverage passes, functionality has been checked with other engineers etc.</td>
+                  <td>N/A</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
   <script>
