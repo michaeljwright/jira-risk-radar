@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Risk Radar</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Add custom styles here */
+  </style>
+</head>
+<body>
+  <div class="h-100 align-items-center justify-content-center">
+    <h1 class="font-weight-bold text-center">Risk Radar</h1>
+    <div class="chart-container align-items-center justify-content-center" style="position: relative; height:40vh;">
+      <canvas id="radarChart"></canvas>
+    </div>
+    <div id="riskLevelBox" class="alert text-center font-weight-bold" role="alert"></div>
+    <br />
+    <h4>Points of Risk (with thresholds)</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Risk</th>
+          <th scope="col">Description</th>
+          <th scope="col">Threshold</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Security</th>
+          <td>Important to security i.e. Authentication related would be high</td>
+          <td>0.7</td>
+        </tr>
+        <tr>
+          <th scope="row">Dependency</th>
+          <td>Relates to a high dependency on or impacts other features</td>
+          <td>0.2</td>
+        </tr>
+        <tr>
+          <th scope="row">Relevance</th>
+          <td>High visibility to the end customer (i.e. Consumer Facing) or end-user and/or core functionality</td>
+          <td>0.4</td>
+        </tr>
+        <tr>
+          <th scope="row">Importance</th>
+          <td>Highly important to the business in terms of reliability and risk to failure in compliance</td>
+          <td>0.5</td>
+        </tr>
+        <tr>
+          <th scope="row">Rework</th>
+          <td>Relates to work that has been identified as an existing bug that wasn't caught previously</td>
+          <td>0.6</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
+  <script>
+    class RiskRadarApp {
+      constructor() {
+        this.riskFactors = {
+          Security: { rating: 0, threshold: 0.7 },
+          Dependency: { rating: 0, threshold: 0.2 },
+          Relevance: { rating: 0, threshold: 0.4 },
+          Importance: { rating: 0, threshold: 0.5 },
+          Rework: { rating: 0, threshold: 0.6 },
+        };
+        this.riskLevel = 0;
+        this.chart = null;
+        this.riskIndex = [
+          "Security",
+          "Dependency",
+          "Relevance",
+          "Importance",
+          "Rework",
+        ];
+      }
+
+      calculateRiskLevel() {
+        this.riskLevel = Object.values(this.riskFactors).reduce(
+          (total, factor) => {
+            return total + factor.rating * factor.threshold;
+          },
+          0
+        );
+      }
+
+      displayRiskLevel() {
+        const riskLevelBox = document.getElementById("riskLevelBox");
+        riskLevelBox.textContent = this.formatRiskLevel();
+        this.colorCodeRiskLevel(riskLevelBox);
+      }
+
+      formatRiskLevel() {
+        return this.riskLevel.toFixed(1);
+      }
+
+      colorCodeRiskLevel(riskLevelBox) {
+        if (this.riskLevel >= 6.5) {
+          riskLevelBox.classList.add("alert-danger");
+        } else if (this.riskLevel >= 4) {
+          riskLevelBox.classList.add("alert-warning");
+        } else if (this.riskLevel >= 2.5) {
+          riskLevelBox.classList.add("alert-info");
+        } else {
+          riskLevelBox.classList.add("alert-success");
+        }
+      }
+
+      initChart() {
+        const radarChart = document
+          .getElementById("radarChart")
+          .getContext("2d");
+        this.chart = ChartHelper.createRadarChart(radarChart);
+      }
+
+      processChartData() {
+        const draggablePoints = app.chart.data.datasets[0].data;
+        console.log(draggablePoints);
+        draggablePoints.forEach((point, index) => {
+          this.riskFactors[this.riskIndex[index]].rating = point;
+          this.calculateRiskLevel();
+          this.displayRiskLevel();
+        });
+      }
+    }
+
+    class ChartHelper {
+      static createRadarChart(canvas) {
+        return new Chart(canvas, {
+          type: "radar",
+          data: {
+            labels: app.riskIndex,
+            datasets: [
+              {
+                label: "Risk Factors",
+                data: [2, 2, 2, 2, 2],
+                pointHitRadius: 5,
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                pointBackgroundColor: "rgba(75, 192, 192, 1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(75, 192, 192, 1)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            onHover: function (e) {
+              const point = e.chart.getElementsAtEventForMode(
+                e,
+                "nearest",
+                { intersect: true },
+                false
+              );
+              if (point.length) e.native.target.style.cursor = "grab";
+              else e.native.target.style.cursor = "default";
+            },
+            plugins: {
+              dragData: {
+                round: 0,
+                showTooltip: true,
+                onDragEnd: function (e, datasetIndex, index, value) {
+                  // e.target.style.cursor = "default";
+                  // console.log(app.chart.data.datasets);
+                  // console.log("data: ", datasetIndex, index, value);
+                  app.processChartData();
+                },
+              },
+            },
+            scales: {
+              r: {
+                min: 1,
+                max: 5,
+                beginAtZero: true,
+                angleLines: {
+                  display: true,
+                },
+                grid: {
+                  circular: true,
+                },
+                ticks: {
+                  stepSize: 1,
+                },
+              },
+            },
+          },
+        });
+      }
+    }
+
+    const app = new RiskRadarApp();
+    app.initChart();
+  </script>
+</body>
+</html>
