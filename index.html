@@ -83,7 +83,7 @@
               <tbody>
                 <tr>
                   <th scope="row">>= 7.5</th>
-                  <td>Requires a label added to the ticket, requires QA testing and upfront E2E testing + below.</td>
+                  <td>Requires a label added to the ticket, requires QA testing and potentially upfront E2E testing + below.</td>
                   <td>Q1</td>
                 </tr>
                 <tr>
@@ -123,6 +123,7 @@
           Rework: { rating: 0, threshold: 0.6 },
         };
         this.riskLevel = 0;
+        this.riskRating = 3;
         this.chart = null;
         this.riskIndex = [
           "Security",
@@ -131,7 +132,17 @@
           "Importance",
           "Rework",
         ];
+        this.riskMessages = [
+          "Q1 - Requires this label added to the ticket, requires QA testing and potentially upfront E2E testing",
+          "Q2 - Requires this label added to the ticket, requires QA testing for Prep env before release",
+          "Q3 - Requires this label added to the ticket, can proceed without QA testing but requires PO to do UAT",
+          "Does not require a label, engineers can proceed without QA testing as long as code coverage passes, functionality has been checked with other engineers etc"
+        ];
       }
+
+      createRiskRatingMessage() {
+        return this.riskMessages[this.riskRating];
+      };
 
       calculateRiskLevel() {
         this.riskLevel = Object.values(this.riskFactors).reduce(
@@ -144,7 +155,7 @@
 
       displayRiskLevel() {
         const riskLevelBox = document.getElementById("riskLevelBox");
-        riskLevelBox.textContent = this.formatRiskLevel();
+        riskLevelBox.textContent = this.createRiskRatingMessage(); //this.formatRiskLevel();
         this.colorCodeRiskLevel(riskLevelBox);
       }
 
@@ -154,21 +165,25 @@
 
       colorCodeRiskLevel(riskLevelBox) {
         if (this.riskLevel >= 7.5) {
+          this.riskRating = 0;
           riskLevelBox.classList.remove("alert-info");
           riskLevelBox.classList.remove("alert-warning");
           riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-danger");
         } else if (this.riskLevel >= 6.5) {
+          this.riskRating = 1;
           riskLevelBox.classList.remove("alert-danger");
           riskLevelBox.classList.remove("alert-info");
           riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-warning");
         } else if (this.riskLevel >= 5.5) {
+          this.riskRating = 2;
           riskLevelBox.classList.remove("alert-danger");
           riskLevelBox.classList.remove("alert-warning");
           riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-info");
         } else {
+          this.riskRating = 3;
           riskLevelBox.classList.remove("alert-danger");
           riskLevelBox.classList.remove("alert-warning");
           riskLevelBox.classList.remove("alert-info");
