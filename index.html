@@ -82,22 +82,22 @@
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">>= 6.5</th>
+                  <th scope="row">>= 7.5</th>
                   <td>Requires a label added to the ticket, requires QA testing and upfront E2E testing + below.</td>
                   <td>Q1</td>
                 </tr>
                 <tr>
-                  <th scope="row">>= 4</th>
+                  <th scope="row">>= 6.5</th>
                   <td>Requires a label added to the ticket, requires QA testing for Prep env before release + below.</td>
                   <td>Q2</td>
                 </tr>
                 <tr>
-                  <th scope="row">>= 2.5</th>
+                  <th scope="row">>= 5.5</th>
                   <td>Requires a label added to the ticket, can proceed without QA testing but requires PO to do UAT + below.</td>
                   <td>Q3</td>
                 </tr>
                 <tr>
-                  <th scope="row">Below 2.5</th>
+                  <th scope="row">Below 5.5</th>
                   <td>Does not require a label, engineers can proceed without QA testing as long as code coverage passes, functionality has been checked with other engineers etc.</td>
                   <td>N/A</td>
                 </tr>
@@ -153,13 +153,25 @@
       }
 
       colorCodeRiskLevel(riskLevelBox) {
-        if (this.riskLevel >= 6.5) {
+        if (this.riskLevel >= 7.5) {
+          riskLevelBox.classList.remove("alert-info");
+          riskLevelBox.classList.remove("alert-warning");
+          riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-danger");
-        } else if (this.riskLevel >= 4) {
+        } else if (this.riskLevel >= 6.5) {
+          riskLevelBox.classList.remove("alert-danger");
+          riskLevelBox.classList.remove("alert-info");
+          riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-warning");
-        } else if (this.riskLevel >= 2.5) {
+        } else if (this.riskLevel >= 5.5) {
+          riskLevelBox.classList.remove("alert-danger");
+          riskLevelBox.classList.remove("alert-warning");
+          riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-info");
         } else {
+          riskLevelBox.classList.remove("alert-danger");
+          riskLevelBox.classList.remove("alert-warning");
+          riskLevelBox.classList.remove("alert-info");
           riskLevelBox.classList.add("alert-success");
         }
       }
