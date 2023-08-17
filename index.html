@@ -75,31 +75,26 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">Rating</th>
+                  <th scope="col">Rating / Label</th>
                   <th scope="col">Action</th>
-                  <th scope="col">Jira Label</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">>= 7.5</th>
-                  <td>Requires a label added to the ticket, requires QA testing and potentially upfront E2E testing + below.</td>
-                  <td>Q1</td>
+                  <td>T1</td>
+                  <td>Add this label to the Jira ticket then requires QA testing in Prep, PO conduct UAT, and potentially upfront E2E testing.</td>
                 </tr>
                 <tr>
-                  <th scope="row">>= 6.5</th>
-                  <td>Requires a label added to the ticket, requires QA testing for Prep env before release + below.</td>
-                  <td>Q2</td>
+                  <td>T2</td>
+                  <td>Add this label to the Jira ticket then requires QA testing in Prep before release.</td>
                 </tr>
                 <tr>
-                  <th scope="row">>= 5.5</th>
-                  <td>Requires a label added to the ticket, can proceed without QA testing but requires PO to do UAT + below.</td>
-                  <td>Q3</td>
+                  <td>T3</td>
+                  <td>Add this label to the Jira ticket then can proceed without QA testing but may still require short QA discussion and PO to do UAT. Ensure adequate code coverage and functionality checked with other engineers etc.</td>
                 </tr>
                 <tr>
-                  <th scope="row">Below 5.5</th>
-                  <td>Does not require a label, engineers can proceed without QA testing as long as code coverage passes, functionality has been checked with other engineers etc.</td>
                   <td>N/A</td>
+                  <td>Does not require a label, engineers can proceed without QA testing as long as code coverage passes, functionality has been checked with other engineers etc.</td>
                 </tr>
               </tbody>
             </table>
@@ -133,9 +128,9 @@
           "Rework",
         ];
         this.riskMessages = [
-          "Q1 - Requires this label added to the ticket, requires QA testing and potentially upfront E2E testing",
-          "Q2 - Requires this label added to the ticket, requires QA testing for Prep env before release",
-          "Q3 - Requires this label added to the ticket, can proceed without QA testing but requires PO to do UAT",
+          "T1 - Add this label to the Jira ticket then requires QA testing in Prep, PO conduct UAT, and potentially upfront E2E testing",
+          "T2 - Add this label to the Jira ticket then requires QA testing in Prep before release",
+          "T3 - Add this label to the Jira ticket then can proceed without QA testing but may still require short QA discussion and PO to do UAT. Ensure adequate code coverage and functionality checked with other engineers etc",
           "Does not require a label, engineers can proceed without QA testing as long as code coverage passes, functionality has been checked with other engineers etc"
         ];
       }
