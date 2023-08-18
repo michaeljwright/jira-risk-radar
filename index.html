@@ -105,12 +105,13 @@
     class RiskRadarApp {
       constructor() {
         this.riskFactors = {
-          Security: { rating: 0, threshold: 0.7 },
-          Dependency: { rating: 0, threshold: 0.2 },
-          Relevance: { rating: 0, threshold: 0.4 },
-          Importance: { rating: 0, threshold: 0.5 },
-          Rework: { rating: 0, threshold: 0.6 },
+          Security: { rating: 0, threshold: 0.7, pointMax: 4 },
+          Dependency: { rating: 0, threshold: 0.2, pointMax: 4 },
+          Relevance: { rating: 0, threshold: 0.4, pointMax: 4 },
+          Importance: { rating: 0, threshold: 0.5, pointMax: 4 },
+          Rework: { rating: 0, threshold: 0.6, pointMax: 4 },
         };
+        this.initialRiskLevel = 0;
         this.riskLevel = 0;
         this.riskRating = 3;
         this.chart = null;
@@ -133,19 +134,28 @@
         return this.riskMessages[this.riskRating];
       };
 
+      checkPointRiskMax(riskFactor) {
+        let pointMaxIncreaser = 0;
+        if (riskFactor.rating >= riskFactor.pointMax) {
+          pointMaxIncreaser = 10;
+        }
+        return pointMaxIncreaser;
+      }
+
       calculateRiskLevel() {
         this.riskLevel = Object.values(this.riskFactors).reduce(
           (total, factor) => {
-            return total + factor.rating * factor.threshold;
+            return total + factor.rating + (factor.rating * factor.threshold) + this.checkPointRiskMax(factor);
           },
-          0
+          this.initialRiskLevel
         );
+        this.displayRiskLevel();
       }
 
       displayRiskLevel() {
         const riskLevelBox = document.getElementById("riskLevelBox");
-        riskLevelBox.textContent = this.createRiskRatingMessage(); //this.formatRiskLevel();
         this.colorCodeRiskLevel(riskLevelBox);
+        riskLevelBox.textContent = this.createRiskRatingMessage();
       }
 
       formatRiskLevel() {
@@ -153,19 +163,19 @@
       }
 
       colorCodeRiskLevel(riskLevelBox) {
-        if (this.riskLevel >= 7.5) {
+        if (this.riskLevel >= 23) { // T1
           this.riskRating = 0;
           riskLevelBox.classList.remove("alert-info");
           riskLevelBox.classList.remove("alert-warning");
           riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-danger");
-        } else if (this.riskLevel >= 6.5) {
+        } else if (this.riskLevel >= 18 && this.riskLevel < 23) { // T2
           this.riskRating = 1;
           riskLevelBox.classList.remove("alert-danger");
           riskLevelBox.classList.remove("alert-info");
           riskLevelBox.classList.remove("alert-success");
           riskLevelBox.classList.add("alert-warning");
-        } else if (this.riskLevel >= 5.5) {
+        } else if (this.riskLevel >= 11 && this.riskLevel < 18) { // T3
           this.riskRating = 2;
           riskLevelBox.classList.remove("alert-danger");
           riskLevelBox.classList.remove("alert-warning");
@@ -189,12 +199,12 @@
 
       processChartData() {
         const draggablePoints = app.chart.data.datasets[0].data;
-        console.log(draggablePoints);
+        // console.log(draggablePoints);
         draggablePoints.forEach((point, index) => {
           this.riskFactors[this.riskIndex[index]].rating = point;
           this.calculateRiskLevel();
-          this.displayRiskLevel();
         });
+        console.log("riskLevel: ", this.riskLevel)
       }
     }
 
@@ -207,7 +217,7 @@
             datasets: [
               {
                 label: "Risk Factors",
-                data: [2, 2, 2, 2, 2],
+                data: [1, 1, 1, 1, 1],
                 pointHitRadius: 5,
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 borderColor: "rgba(75, 192, 192, 1)",
@@ -245,7 +255,7 @@
             },
             scales: {
               r: {
-                min: 1,
+                min: 0,
                 max: 5,
                 beginAtZero: true,
                 angleLines: {
