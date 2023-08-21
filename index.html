@@ -199,7 +199,6 @@
 
       processChartData() {
         const draggablePoints = app.chart.data.datasets[0].data;
-        // console.log(draggablePoints);
         draggablePoints.forEach((point, index) => {
           this.riskFactors[this.riskIndex[index]].rating = point;
           this.calculateRiskLevel();
@@ -216,7 +215,7 @@
             labels: app.riskIndex,
             datasets: [
               {
-                label: "Risk Factors",
+                label: "Risk Factor",
                 data: [1, 1, 1, 1, 1],
                 pointHitRadius: 5,
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
