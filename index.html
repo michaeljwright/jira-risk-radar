@@ -35,19 +35,19 @@
               <tbody>
                 <tr>
                   <th scope="row">Security</th>
-                  <td>Important to security i.e. Authentication related would be high</td>
+                  <td>Importance relating to security i.e. Authentication related would be high</td>
                 </tr>
                 <tr>
                   <th scope="row">Dependency</th>
-                  <td>Relates to a high dependency on or impacts other features</td>
+                  <td>Has a high impact on another feature or service, or contains a breaking change</td>
                 </tr>
                 <tr>
-                  <th scope="row">Relevance</th>
-                  <td>High visibility to the end customer (i.e. Consumer Facing) or end-user and/or core functionality</td>
+                  <th scope="row">Reputational</th>
+                  <td>High visibility to the end customer and could have a high impact on reputation.</td>
                 </tr>
                 <tr>
-                  <th scope="row">Importance</th>
-                  <td>Highly important to the business in terms of reliability and risk to failure in compliance</td>
+                  <th scope="row">Compliance</th>
+                  <td>How critical to the business in terms of risk to regulatory compliance</td>
                 </tr>
                 <tr>
                   <th scope="row">Rework</th>
@@ -106,10 +106,10 @@
       constructor() {
         this.riskFactors = {
           Security: { rating: 0, threshold: 0.7, pointMax: 4 },
-          Dependency: { rating: 0, threshold: 0.2, pointMax: 4 },
-          Relevance: { rating: 0, threshold: 0.4, pointMax: 4 },
-          Importance: { rating: 0, threshold: 0.5, pointMax: 4 },
-          Rework: { rating: 0, threshold: 0.6, pointMax: 4 },
+          Dependency: { rating: 0, threshold: 0.3, pointMax: 4 },
+          Reputational: { rating: 0, threshold: 0.5, pointMax: 4 },
+          Compliance: { rating: 0, threshold: 0.5, pointMax: 4 },
+          Rework: { rating: 0, threshold: 0.4, pointMax: 4 },
         };
         this.initialRiskLevel = 0;
         this.riskLevel = 0;
@@ -118,8 +118,8 @@
         this.riskIndex = [
           "Security",
           "Dependency",
-          "Relevance",
-          "Importance",
+          "Reputational",
+          "Compliance",
           "Rework",
         ];
         this.riskMessages = [
