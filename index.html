@@ -20,7 +20,7 @@
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Points of Risk (inc. examples)
+            Points of Risk
           </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -35,23 +35,23 @@
               <tbody>
                 <tr>
                   <th scope="row">Security</th>
-                  <td>Importance relating to security i.e. Authentication related would be high</td>
+                  <td>High importance in terms of risk to security i.e. Authentication related would be high</td>
                 </tr>
                 <tr>
                   <th scope="row">Dependency</th>
-                  <td>Has a high impact on another feature or service, or contains a breaking change</td>
+                  <td>High impact on another feature or service, or contains a breaking change</td>
                 </tr>
                 <tr>
                   <th scope="row">Reputational</th>
-                  <td>High visibility to the end customer and could have a high impact on reputation.</td>
+                  <td>High visibility to the end customer and could have a high impact on reputation</td>
                 </tr>
                 <tr>
                   <th scope="row">Compliance</th>
-                  <td>How critical to the business in terms of risk to regulatory compliance</td>
+                  <td>Critical to the business in terms of risk to regulatory compliance</td>
                 </tr>
                 <tr>
-                  <th scope="row">Rework</th>
-                  <td>Relates to work that has been identified as an existing bug that wasn't caught previously</td>
+                  <th scope="row">Operational</th>
+                  <td>Impacts a production issue and has already been identified as an existing bug</td>
                 </tr>
               </tbody>
             </table>
@@ -61,7 +61,7 @@
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingTwo">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Risk Rating (with actions)
+            Risk Rating (and what to do next)
           </button>
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -76,15 +76,15 @@
               <tbody>
                 <tr>
                   <td>T1</td>
-                  <td>Add this label to the Jira ticket then requires QA testing in Prep, PO conduct UAT, and potentially upfront E2E testing.</td>
+                  <td>Add this label to the Jira ticket which means it requires QA testing in Prep, PO to conduct UAT, and potentially upfront E2E testing.</td>
                 </tr>
                 <tr>
                   <td>T2</td>
-                  <td>Add this label to the Jira ticket then requires QA testing in Prep before release.</td>
+                  <td>Add this label to the Jira ticket which means it requires at least QA testing in Prep before release.</td>
                 </tr>
                 <tr>
                   <td>T3</td>
-                  <td>Add this label to the Jira ticket then can proceed without QA testing but may still require short QA discussion and PO to do UAT. Ensure adequate code coverage and functionality checked with other engineers etc.</td>
+                  <td>Add this label to the Jira ticket which means it can proceed without QA testing but may still require short QA discussion and PO to do UAT. Ensure adequate code coverage and functionality checked with other engineers etc.</td>
                 </tr>
                 <tr>
                   <td>N/A</td>
@@ -109,7 +109,7 @@
           Dependency: { rating: 0, threshold: 0.3, pointMax: 4 },
           Reputational: { rating: 0, threshold: 0.5, pointMax: 4 },
           Compliance: { rating: 0, threshold: 0.5, pointMax: 4 },
-          Rework: { rating: 0, threshold: 0.4, pointMax: 4 },
+          Operational: { rating: 0, threshold: 0.8, pointMax: 4 },
         };
         this.initialRiskLevel = 0;
         this.riskLevel = 0;
@@ -120,7 +120,7 @@
           "Dependency",
           "Reputational",
           "Compliance",
-          "Rework",
+          "Operational",
         ];
         this.riskMessages = [
           "T1 - Add this label to the Jira ticket then requires QA testing in Prep, PO conduct UAT, and potentially upfront E2E testing",
